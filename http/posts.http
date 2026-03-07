@@ -1,0 +1,42 @@
+@baseUrl = http://localhost:3000
+
+### Health Check
+GET {{baseUrl}}/health
+Content-Type: application/json
+
+### List All Posts
+GET {{baseUrl}}/posts
+Content-Type: application/json
+
+### Create New Post
+POST {{baseUrl}}/posts
+Content-Type: application/json
+
+{
+  "title": "Minha primeira aula",
+  "content": "Conteúdo detalhado da aula de matemática sobre frações.",
+  "author": "Prof. Vinicius"
+}
+
+### Get Post by ID (Exemplo)
+@postId = 1
+GET {{baseUrl}}/posts/{{postId}}
+Content-Type: application/json
+
+### Search Posts
+GET {{baseUrl}}/posts/search?q=matematica
+Content-Type: application/json
+
+### Update Post
+PUT {{baseUrl}}/posts/{{postId}}
+Content-Type: application/json
+
+{
+  "title": "Minha primeira aula (Editada)",
+  "content": "Conteúdo atualizado sobre frações e decimais.",
+  "author": "Prof. Vinicius"
+}
+
+### Delete Post
+DELETE {{baseUrl}}/posts/{{postId}}
+Content-Type: application/json
