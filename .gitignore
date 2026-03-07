@@ -8,3 +8,5 @@ dist/
 # Agent Skills (Local Only)
 .github/copilot-instructions.md
 .hooks/
+
+/src/generated/prisma
