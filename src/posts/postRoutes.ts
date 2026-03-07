@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { PostController } from './postController';
 import { PostService } from './postService';
-import { MemoryPostRepository } from './memoryPostRepository';
+import { PrismaPostRepository } from './prismaPostRepository';
 
 const postRouter = Router();
 
-// Injeção de Dependência Manual (Temporária até Container DI se necessário)
-const repository = new MemoryPostRepository();
+// Injeção de Dependência Manual (Conectando ao Prisma/PostgreSQL)
+const repository = new PrismaPostRepository();
 const service = new PostService(repository);
 const controller = new PostController(service);
 
