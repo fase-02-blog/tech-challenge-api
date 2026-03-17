@@ -10,3 +10,4 @@ dist/
 .hooks/
 
 /src/generated/prisma
+coverage

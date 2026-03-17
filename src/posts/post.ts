@@ -29,9 +29,9 @@ export class Post {
   }
 
   update(title?: string, content?: string, author?: string): void {
-    if (title) this.title = title;
-    if (content) this.content = content;
-    if (author) this.author = author;
+    if (title !== undefined) this.title = title;
+    if (content !== undefined) this.content = content;
+    if (author !== undefined) this.author = author;
     this.updatedAt = new Date();
     this.validate();
   }
