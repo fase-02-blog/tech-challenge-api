@@ -43,7 +43,7 @@ export class PostController {
   async getById(req: Request, res: Response): Promise<Response> {
     try {
       const { id } = req.params;
-      const post = await this.postService.findById(id as string);
+      const post = await this.postService.findByUuid(id as string);
       if (!post) throw new PostNotFoundError();
       return res.status(200).json(post);
     } catch (error) {

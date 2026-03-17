@@ -1,6 +1,7 @@
 export class Post {
   constructor(
-    public readonly id: string | null,
+    public readonly id: number | null,
+    public readonly uuid: string | null,
     public title: string,
     public content: string,
     public author: string,
@@ -24,7 +25,7 @@ export class Post {
 
   static create(title: string, content: string, author: string): Post {
     const now = new Date();
-    return new Post(null, title, content, author, now, now);
+    return new Post(null, null, title, content, author, now, now);
   }
 
   update(title?: string, content?: string, author?: string): void {

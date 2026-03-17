@@ -16,9 +16,9 @@ export class NativeSqlPostRepository implements IPostRepository {
     return PostMapper.toDomain(rows[0] as IPostPersistence);
   }
 
-  async findById(id: string): Promise<Post | null> {
-    const query = 'SELECT * FROM "posts" WHERE id::text = $1;';
-    const { rows } = await db.query(query, [id]);
+  async findById(uuid: string): Promise<Post | null> {
+    const query = 'SELECT * FROM "posts" WHERE uuid = $1;';
+    const { rows } = await db.query(query, [uuid]);
     if (rows.length === 0) return null;
     return PostMapper.toDomain(rows[0] as IPostPersistence);
   }
@@ -30,22 +30,22 @@ export class NativeSqlPostRepository implements IPostRepository {
   }
 
   async update(post: Post): Promise<Post> {
-    if (!post.id) throw new Error('Post ID is required for update');
+    if (!post.uuid) throw new Error('Post UUID is required for update');
     const query = `
       UPDATE "posts"
       SET title = $1, content = $2, author = $3, "updatedAt" = $4
-      WHERE id::text = $5
+      WHERE uuid = $5
       RETURNING *;
     `;
-    const values = [post.title, post.content, post.author, post.updatedAt, post.id];
+    const values = [post.title, post.content, post.author, post.updatedAt, post.uuid];
     const { rows } = await db.query(query, values);
     if (rows.length === 0) throw new Error('Post not found');
     return PostMapper.toDomain(rows[0] as IPostPersistence);
   }
 
-  async delete(id: string): Promise<void> {
-    const query = 'DELETE FROM "posts" WHERE id::text = $1;';
-    await db.query(query, [id]);
+  async delete(uuid: string): Promise<void> {
+    const query = 'DELETE FROM "posts" WHERE uuid = $1;';
+    await db.query(query, [uuid]);
   }
 
   async search(queryText: string): Promise<Post[]> {

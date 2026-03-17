@@ -13,8 +13,8 @@ done
 echo -e "\n✅ Banco de dados está pronto!"
 
 echo "🔄 Aplicando migrações do Prisma para criar a estrutura das tabelas..."
-# Executa a migração. O --name init serve para não pedir input se for a primeira vez.
-npx prisma migrate dev --name init
+# Executa a migração dentro do container da API para garantir que ele alcance o banco
+docker exec challenge-api npx prisma migrate deploy
 
 echo "🔍 Verificando logs da API..."
 echo "💡 Dica: Pressione Ctrl+C para sair dos logs, a API continuará rodando."

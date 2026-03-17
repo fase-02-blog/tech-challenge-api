@@ -21,25 +21,25 @@ export class PostService {
     return this.postRepository.findAll();
   }
 
-  async findById(id: string): Promise<Post | null> {
-    return this.postRepository.findById(id);
+  async findByUuid(uuid: string): Promise<Post | null> {
+    return this.postRepository.findById(uuid);
   }
 
   async search(query: string): Promise<Post[]> {
     return this.postRepository.search(query);
   }
 
-  async update(id: string, data: UpdatePostInput): Promise<Post> {
-    const post = await this.postRepository.findById(id);
+  async update(uuid: string, data: UpdatePostInput): Promise<Post> {
+    const post = await this.postRepository.findById(uuid);
     if (!post) throw new PostNotFoundError();
     
     post.update(data.title, data.content, data.author);
     return this.postRepository.update(post);
   }
 
-  async delete(id: string): Promise<void> {
-    const post = await this.postRepository.findById(id);
+  async delete(uuid: string): Promise<void> {
+    const post = await this.postRepository.findById(uuid);
     if (!post) throw new PostNotFoundError();
-    await this.postRepository.delete(id);
+    await this.postRepository.delete(uuid);
   }
 }

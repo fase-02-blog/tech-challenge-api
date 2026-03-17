@@ -1,7 +1,8 @@
 import { Post } from './post';
 
 export interface IPostPersistence {
-  id: string | null;
+  id: number | null;
+  uuid: string | null;
   title: string;
   content: string;
   author: string;
@@ -13,6 +14,7 @@ export class PostMapper {
   static toDomain(raw: IPostPersistence): Post {
     return new Post(
       raw.id,
+      raw.uuid,
       raw.title,
       raw.content,
       raw.author,
@@ -24,6 +26,7 @@ export class PostMapper {
   static toPersistence(post: Post): IPostPersistence {
     return {
       id: post.id,
+      uuid: post.uuid,
       title: post.title,
       content: post.content,
       author: post.author,

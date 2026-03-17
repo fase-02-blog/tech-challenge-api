@@ -14,7 +14,8 @@ datasource db {
 }
 
 model Post {
-  id        String   @id @default(uuid())
+  id        Int      @id @default(autoincrement())
+  uuid      String   @unique @default(dbgenerated("gen_random_uuid()"))
   title     String
   content   String
   author    String
