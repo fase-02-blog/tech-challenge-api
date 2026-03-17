@@ -28,7 +28,7 @@ export class PrismaPostRepository implements IPostRepository {
     const posts = await prisma.post.findMany({
       orderBy: { createdAt: 'desc' },
     });
-    return posts.map((p) => PostMapper.toDomain(p as IPostPersistence));
+    return posts.map((p: IPostPersistence) => PostMapper.toDomain(p));
   }
 
   async update(post: Post): Promise<Post> {
@@ -59,6 +59,6 @@ export class PrismaPostRepository implements IPostRepository {
         ],
       },
     });
-    return posts.map((p) => PostMapper.toDomain(p as IPostPersistence));
+    return posts.map((p: IPostPersistence) => PostMapper.toDomain(p));
   }
 }

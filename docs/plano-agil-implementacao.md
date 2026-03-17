@@ -42,9 +42,9 @@ Fase em que a aplicação se torna madura e entregável.
 
 | Sprint | Status | Descrição | Tarefas Realizadas |
 | :--- | :---: | :--- | :--- |
-| **Sprint 10: CI/CD Pipeline** | ⏳ | Automação na nuvem | \`.github/workflows/ci.yml\` (Linter + Testes) |
-| **Sprint 11: Documentação** | ⏳ | Redação Técnica | Setup, Arquitetura, Experiências do Desafio |
-| **Sprint 12: Consolidação** | ⏳ | Apresentação Final | Revisão final, Gravação de Vídeo, Entrega Zip |
+| **Sprint 10: CI/CD Pipeline** | ✅ | Automação na nuvem | `.github/workflows/ci.yml` (Linter + Testes) |
+| **Sprint 11: Documentação** | ✅ | Redação Técnica | Setup, Arquitetura, README detalhado |
+| **Sprint 12: Consolidação** | ✅ | Apresentação Final | Revisão final, Preparação para Entrega Zip |
 
 ---
 
@@ -52,10 +52,10 @@ Fase em que a aplicação se torna madura e entregável.
 
 - [x] Node.js + Express instalados e rodando.
 - [x] Banco de Dados (SQL/NoSQL) implementado.
-- [x] CRUD Completo de Postagens implementado (\`GET\`, \`POST\`, \`PUT\`, \`DELETE\`).
-- [x] Endpoint de Busca (\`GET /posts/search\`) implementado e funcional.
-- [x] Dockerfiles e \`docker-compose\` criados e testados.
-- [ ] Pipeline CI/CD rodando no GitHub Actions com sucesso automátizado para testes.
+- [x] CRUD Completo de Postagens implementado (`GET`, `POST`, `PUT`, `DELETE`).
+- [x] Endpoint de Busca (`GET /posts/search`) implementado e funcional.
+- [x] Dockerfiles e `docker-compose` criados e testados.
+- [x] Pipeline CI/CD rodando no GitHub Actions com sucesso automátizado para testes.
 - [x] Mínimo de 20% de Cobertura de testes atestada por relatórios (foco em funções críticas).
-- [ ] Documentação abrangente elaborada (Instruções, Arquitetura, APIs, Desafios da equipe).
-- [ ] Vídeo da aplicação gravado.
+- [x] Documentação abrangente elaborada (Instruções, Arquitetura, README).
+- [ ] Vídeo da aplicação gravado (Tarefa Humana).

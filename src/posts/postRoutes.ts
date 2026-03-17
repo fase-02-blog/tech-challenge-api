@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { PostController } from './postController';
 import { PostService } from './postService';
-import { PrismaPostRepository } from './prismaPostRepository';
+import { NativeSqlPostRepository } from './nativeSqlPostRepository';
 
 const postRouter = Router();
 
-// Injeção de Dependência Manual (Conectando ao Prisma/PostgreSQL)
-const repository = new PrismaPostRepository();
+// Injeção de Dependência Manual (SQL Nativo / PostgreSQL)
+const repository = new NativeSqlPostRepository();
 const service = new PostService(repository);
 const controller = new PostController(service);
 
