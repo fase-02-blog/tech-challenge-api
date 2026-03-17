@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "🚀 Iniciando os containers com Docker Compose..."
-docker compose up -d
+docker compose up -d --build
 
 echo "⏳ Aguardando o banco de dados ficar pronto..."
 # Aguarda até que o container do banco esteja saudável (healthcheck definido no docker-compose)

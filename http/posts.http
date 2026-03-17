@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:3000
+@baseUrl = http://localhost:3001
 
 ### Health Check
 GET {{baseUrl}}/health
@@ -9,39 +9,42 @@ GET {{baseUrl}}/posts
 Content-Type: application/json
 
 ### Create New Post
+# @name createPost
 POST {{baseUrl}}/posts
 Content-Type: application/json
 
 {
-  "title": "Minha primeira aula",
-  "content": "Conteúdo detalhado da aula de matemática sobre frações.",
+  "title": "Minha primeira aula de Matemática",
+  "content": "Conteúdo detalhado da aula sobre frações e números decimais.",
   "author": "Prof. Vinicius"
 }
 
-### Get Post by ID (Exemplo)
-@postId = 1
-GET {{baseUrl}}/posts/{{postId}}
+### Get Post by UUID (Use o UUID do post criado acima)
+@postUuid = {{createPost.response.body.uuid}}
+GET {{baseUrl}}/posts/{{postUuid}}
 Content-Type: application/json
 
 ### Search Posts
-GET {{baseUrl}}/posts/search?q=matematica
+GET {{baseUrl}}/posts/search?q=Matematica
 Content-Type: application/json
 
 ### Update Post
-PUT {{baseUrl}}/posts/{{postId}}
+PUT {{baseUrl}}/posts/{{postUuid}}
 Content-Type: application/json
 
 {
-  "title": "Minha aula atualizada",
-  "content": "Conteúdo modificado com novas explicações.",
-  "author": "Prof. Atualizado"
+  "title": "Aula de Matemática Atualizada",
+  "content": "Conteúdo modificado com novas explicações sobre frações.",
+  "author": "Prof. Vinicius"
 }
 
 ### Delete Post
-DELETE {{baseUrl}}/posts/{{postId}}
+DELETE {{baseUrl}}/posts/{{postUuid}}
 Content-Type: application/json
 
-### Erro de Validação (Título curto)
+### --- CENÁRIOS DE FALHA ---
+
+### Erro de Validação: Título Curto
 POST {{baseUrl}}/posts
 Content-Type: application/json
 
@@ -50,3 +53,23 @@ Content-Type: application/json
   "content": "Conteúdo curto",
   "author": "Eu"
 }
+
+### Erro de Validação: Campos Faltantes
+POST {{baseUrl}}/posts
+Content-Type: application/json
+
+{
+  "title": "Título apenas"
+}
+
+### Erro: Post Não Encontrado (404)
+GET {{baseUrl}}/posts/00000000-0000-0000-0000-000000000000
+Content-Type: application/json
+
+### Erro: JSON Malformado
+POST {{baseUrl}}/posts
+Content-Type: application/json
+
+{
+  "title": "Título",
+  "content": "Incompleto...

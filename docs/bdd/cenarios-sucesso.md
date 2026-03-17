@@ -14,7 +14,7 @@ Este documento descreve os comportamentos esperados para as funcionalidades da A
 *   **Quando** eu envio uma requisição `POST` para `/posts` com esses dados
 *   **Então** o sistema deve salvar o post no banco de dados
 *   **E** retornar o status HTTP `201 Created`
-*   **E** o corpo da resposta deve conter o `id` gerado e a data de criação.
+*   **E** o corpo da resposta deve conter o `id` serial, o `uuid` gerado, e as datas de criação/atualização.
 
 ---
 
@@ -27,7 +27,7 @@ Este documento descreve os comportamentos esperados para as funcionalidades da A
 *   **Dado** que existem postagens cadastradas no sistema
 *   **Quando** eu envio uma requisição `GET` para `/posts`
 *   **Então** o sistema deve retornar o status HTTP `200 OK`
-*   **E** uma lista contendo todos os posts em formato JSON.
+*   **E** uma lista contendo todos os posts em formato JSON, ordenados pela data de criação (mais recentes primeiro).
 
 ---
 
@@ -36,11 +36,24 @@ Este documento descreve os comportamentos esperados para as funcionalidades da A
 **Eu quero** ler o conteúdo completo de um post específico  
 **Para que** eu possa me aprofundar no assunto
 
-### Cenário: Visualizar post por ID válido
-*   **Dado** que existe um post com o ID `123-abc`
-*   **Quando** eu envio uma requisição `GET` para `/posts/123-abc`
+### Cenário: Visualizar post por UUID válido
+*   **Dado** que existe um post com o UUID `ce104344-319f-42ed-9759-90080c60f7a2`
+*   **Quando** eu envio uma requisição `GET` para `/posts/ce104344-319f-42ed-9759-90080c60f7a2`
 *   **Então** o sistema deve retornar o status HTTP `200 OK`
 *   **E** o conteúdo completo deste post específico.
+
+---
+
+## Funcionalidade: Busca de Postagens (Sprint 7)
+**Como um** Leitor  
+**Eu quero** pesquisar postagens por termos específicos  
+**Para que** eu encontre rapidamente o conteúdo desejado
+
+### Cenário: Pesquisar posts por título ou conteúdo
+*   **Dado** que existem posts com o termo "Matemática" no título ou conteúdo
+*   **Quando** eu envio uma requisição `GET` para `/posts/search?q=Matemática`
+*   **Então** o sistema deve retornar o status HTTP `200 OK`
+*   **E** uma lista contendo os posts que deram match com o termo.
 
 ---
 
@@ -49,13 +62,13 @@ Este documento descreve os comportamentos esperados para as funcionalidades da A
 **Eu quero** editar um post já existente  
 **Para que** eu possa corrigir erros ou atualizar informações
 
-### Cenário: Atualizar título e conteúdo de um post
-*   **Dado** que existe um post com o ID `abc-123`
-*   **E** eu possuo novos dados para o título e conteúdo
-*   **Quando** eu envio uma requisição `PUT` para `/posts/abc-123` com os novos dados
+### Cenário: Atualizar dados de um post existente
+*   **Dado** que existe um post com o UUID `ce104344-319f-42ed-9759-90080c60f7a2`
+*   **E** eu possuo novos dados válidos para atualização
+*   **Quando** eu envio uma requisição `PUT` para `/posts/ce104344-319f-42ed-9759-90080c60f7a2` com os novos dados
 *   **Então** o sistema deve atualizar as informações no banco de dados
 *   **E** retornar o status HTTP `200 OK`
-*   **E** o corpo da resposta deve conter o post atualizado.
+*   **E** atualizar o campo `updatedAt`.
 
 ---
 
@@ -64,9 +77,9 @@ Este documento descreve os comportamentos esperados para as funcionalidades da A
 **Eu quero** remover uma postagem do blog  
 **Para que** conteúdos irrelevantes sejam retirados
 
-### Cenário: Excluir um post por ID
-*   **Dado** que existe um post com o ID `delete-me-789`
-*   **Quando** eu envio uma requisição `DELETE` para `/posts/delete-me-789`
+### Cenário: Excluir um post por UUID
+*   **Dado** que existe um post com o UUID `ce104344-319f-42ed-9759-90080c60f7a2`
+*   **Quando** eu envio uma requisição `DELETE` para `/posts/ce104344-319f-42ed-9759-90080c60f7a2`
 *   **Então** o sistema deve remover o post permanentemente do banco de dados
 *   **E** retornar o status HTTP `204 No Content`.
 
@@ -74,7 +87,7 @@ Este documento descreve os comportamentos esperados para as funcionalidades da A
 
 ## Funcionalidade: Monitoramento (Sprint 1)
 ### Cenário: Verificar saúde da aplicação
-*   **Dado** que a API está no ar
+*   **Dado** que a API está rodando na porta 3001
 *   **Quando** eu envio uma requisição `GET` para `/health`
 *   **Então** o sistema deve retornar o status HTTP `200 OK`
-*   **E** a mensagem `{"status": "ok"}`.
+*   **E** um JSON contendo o status e o timestamp atual.
