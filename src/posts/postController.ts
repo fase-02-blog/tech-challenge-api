@@ -36,8 +36,12 @@ export class PostController {
   }
 
   async list(_req: Request, res: Response): Promise<Response> {
-    const posts = await this.postService.listAll();
-    return res.status(200).json(posts);
+    try {
+      const posts = await this.postService.listAll();
+      return res.status(200).json(posts);
+    } catch (error) {
+      return this.handleError(error, res);
+    }
   }
 
   async getById(req: Request, res: Response): Promise<Response> {
@@ -52,9 +56,13 @@ export class PostController {
   }
 
   async search(req: Request, res: Response): Promise<Response> {
-    const { q } = req.query;
-    const posts = await this.postService.search(q as string || '');
-    return res.status(200).json(posts);
+    try {
+      const { q } = req.query;
+      const posts = await this.postService.search(q as string || '');
+      return res.status(200).json(posts);
+    } catch (error) {
+      return this.handleError(error, res);
+    }
   }
 
   async update(req: Request, res: Response): Promise<Response> {

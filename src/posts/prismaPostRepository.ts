@@ -5,48 +5,47 @@ import { prisma } from '@/lib/prisma';
 
 export class PrismaPostRepository implements IPostRepository {
   async create(post: Post): Promise<Post> {
-    const raw = PostMapper.toPersistence(post);
     const created = await prisma.post.create({
-      data: {
-        title: raw.title,
-        content: raw.content,
-        author: raw.author,
-      },
-    });
-    return PostMapper.toDomain(created as IPostPersistence);
-  }
-
-  async findById(id: string): Promise<Post | null> {
-    const found = await prisma.post.findUnique({
-      where: { id },
-    });
-    if (!found) return null;
-    return PostMapper.toDomain(found as IPostPersistence);
-  }
-
-  async findAll(): Promise<Post[]> {
-    const posts = await prisma.post.findMany({
-      orderBy: { createdAt: 'desc' },
-    });
-    return posts.map((p: IPostPersistence) => PostMapper.toDomain(p));
-  }
-
-  async update(post: Post): Promise<Post> {
-    if (!post.id) throw new Error('Post ID is required for update');
-    const updated = await prisma.post.update({
-      where: { id: post.id },
       data: {
         title: post.title,
         content: post.content,
         author: post.author,
       },
     });
-    return PostMapper.toDomain(updated as IPostPersistence);
+    return PostMapper.toDomain(created as any);
   }
 
-  async delete(id: string): Promise<void> {
+  async findById(uuid: string): Promise<Post | null> {
+    const found = await prisma.post.findUnique({
+      where: { uuid },
+    });
+    if (!found) return null;
+    return PostMapper.toDomain(found as any);
+  }
+
+  async findAll(): Promise<Post[]> {
+    const posts = await prisma.post.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
+    return posts.map((p: any) => PostMapper.toDomain(p));
+  }
+
+  async update(post: Post): Promise<Post> {
+    if (!post.uuid) throw new Error('Post UUID is required for update');
+    const updated = await prisma.post.update({
+      where: { uuid: post.uuid },
+      data: {
+        title: post.title,
+        content: post.content,
+        author: post.author,
+      },
+    });
+    return PostMapper.toDomain(updated as any);
+  }
+
+  async delete(uuid: string): Promise<void> {
     await prisma.post.delete({
-      where: { id },
+      where: { uuid },
     });
   }
 
@@ -59,6 +58,6 @@ export class PrismaPostRepository implements IPostRepository {
         ],
       },
     });
-    return posts.map((p: IPostPersistence) => PostMapper.toDomain(p));
+    return posts.map((p: any) => PostMapper.toDomain(p));
   }
 }

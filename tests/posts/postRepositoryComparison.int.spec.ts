@@ -17,7 +17,7 @@ describe('Repository Comparison (Prisma vs Native SQL)', () => {
   afterEach(async () => {
     // Cleanup any posts created during tests
     for (const uuid of testPostsUuids) {
-      await prisma.post.deleteMany({ where: { id: uuid } });
+      await prisma.post.deleteMany({ where: { uuid } });
     }
     testPostsUuids.length = 0;
   });

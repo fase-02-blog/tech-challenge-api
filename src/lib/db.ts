@@ -10,4 +10,5 @@ const pool = new Pool({
 export const db = {
   query: (text: string, params?: any[]) => pool.query(text, params),
   getClient: () => pool.connect(),
+  end: () => pool.end(),
 };
