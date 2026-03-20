@@ -40,7 +40,7 @@ describe('Post Resource Integration Tests', () => {
 
   describe('PUT /posts/:id', () => {
     it('should update a post successfully', async () => {
-      const res = await db.query('INSERT INTO "posts" (title, content, author) VALUES ($1, $2, $3) RETURNING *', ['Old Title', 'Old Content with length', 'Author']);
+      const res = await db.query('INSERT INTO "posts" (title, content, author, "updatedAt") VALUES ($1, $2, $3, NOW()) RETURNING *', ['Old Title', 'Old Content with length', 'Author']);
       const post = res.rows[0];
 
       const response = await request(app)
@@ -64,7 +64,7 @@ describe('Post Resource Integration Tests', () => {
 
   describe('DELETE /posts/:id', () => {
     it('should delete a post successfully', async () => {
-      const res = await db.query('INSERT INTO "posts" (title, content, author) VALUES ($1, $2, $3) RETURNING *', ['To delete', 'Content content content', 'Author']);
+      const res = await db.query('INSERT INTO "posts" (title, content, author, "updatedAt") VALUES ($1, $2, $3, NOW()) RETURNING *', ['To delete', 'Content content content', 'Author']);
       const post = res.rows[0];
 
       const response = await request(app).delete(`/posts/${post.uuid}`);
@@ -75,7 +75,7 @@ describe('Post Resource Integration Tests', () => {
 
   describe('GET /posts/:id', () => {
     it('should return 200 and the post when ID exists', async () => {
-      const res = await db.query('INSERT INTO "posts" (title, content, author) VALUES ($1, $2, $3) RETURNING *', ['Exist', 'Content with enough length', 'Author']);
+      const res = await db.query('INSERT INTO "posts" (title, content, author, "updatedAt") VALUES ($1, $2, $3, NOW()) RETURNING *', ['Exist', 'Content with enough length', 'Author']);
       const post = res.rows[0];
       const response = await request(app).get(`/posts/${post.uuid}`);
       expect(response.status).toBe(200);
@@ -93,7 +93,7 @@ describe('Post Resource Integration Tests', () => {
 
   describe('GET /posts/search', () => {
     it('should return posts matching the query', async () => {
-      const res = await db.query('INSERT INTO "posts" (title, content, author) VALUES ($1, $2, $3) RETURNING *', ['KeywordMatch', 'Content with enough length', 'Author']);
+      const res = await db.query('INSERT INTO "posts" (title, content, author, "updatedAt") VALUES ($1, $2, $3, NOW()) RETURNING *', ['KeywordMatch', 'Content with enough length', 'Author']);
       const post = res.rows[0];
       const response = await request(app).get('/posts/search?q=Keyword');
       expect(response.status).toBe(200);

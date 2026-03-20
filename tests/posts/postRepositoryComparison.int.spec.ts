@@ -23,7 +23,7 @@ describe('Repository Baseline Comparison (Native SQL vs Direct Queries)', () => 
   });
 
   async function createTestPost(title: string, content: string, author: string): Promise<Post> {
-    const res = await db.query('INSERT INTO "posts" (title, content, author) VALUES ($1, $2, $3) RETURNING *', [title, content, author]);
+    const res = await db.query('INSERT INTO "posts" (title, content, author, "updatedAt") VALUES ($1, $2, $3, NOW()) RETURNING *', [title, content, author]);
     const row = res.rows[0];
     const created = new Post(row.id, row.uuid, row.title, row.content, row.author, new Date(row.createdAt), new Date(row.updatedAt));
     if (created.uuid) testPostsUuids.push(created.uuid);

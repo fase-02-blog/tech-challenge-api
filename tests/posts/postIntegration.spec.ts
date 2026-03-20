@@ -47,7 +47,7 @@ describe('Posts API (Integration with Rollback)', () => {
   describe('GET /posts', () => {
     it('should list all posts', async () => {
       // Arrange: Criar um post temporário
-      const res = await db.query('INSERT INTO "posts" (title, content, author) VALUES ($1, $2, $3) RETURNING *', ['Temporary Post for List', 'Content', 'Author']);
+      const res = await db.query('INSERT INTO "posts" (title, content, author, "updatedAt") VALUES ($1, $2, $3, NOW()) RETURNING *', ['Temporary Post for List', 'Content', 'Author']);
       const post = res.rows[0];
 
       // Act
@@ -71,7 +71,7 @@ describe('Posts API (Integration with Rollback)', () => {
     });
 
     it('should return a post by id', async () => {
-      const res = await db.query('INSERT INTO "posts" (title, content, author) VALUES ($1, $2, $3) RETURNING *', ['Detail Test', 'Content', 'Author']);
+      const res = await db.query('INSERT INTO "posts" (title, content, author, "updatedAt") VALUES ($1, $2, $3, NOW()) RETURNING *', ['Detail Test', 'Content', 'Author']);
       const post = res.rows[0];
 
       const response = await request(app).get(`/posts/${post.uuid}`);
@@ -92,7 +92,7 @@ describe('Posts API (Integration with Rollback)', () => {
     });
 
     it('should find posts by title or content', async () => {
-      const res = await db.query('INSERT INTO "posts" (title, content, author) VALUES ($1, $2, $3) RETURNING *', ['Searchable Title', 'Specific content keyword', 'Search Author']);
+      const res = await db.query('INSERT INTO "posts" (title, content, author, "updatedAt") VALUES ($1, $2, $3, NOW()) RETURNING *', ['Searchable Title', 'Specific content keyword', 'Search Author']);
       const post = res.rows[0];
 
       const response = await request(app).get('/posts/search?q=Searchable');

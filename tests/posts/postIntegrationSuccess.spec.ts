@@ -32,7 +32,7 @@ describe('Posts API - Success Scenarios (Happy Path)', () => {
     });
 
     it('should return a post by id', async () => {
-      const res = await db.query('INSERT INTO "posts" (title, content, author) VALUES ($1, $2, $3) RETURNING *', ['Id Test', 'Content content content', 'Author']);
+      const res = await db.query('INSERT INTO "posts" (title, content, author, "updatedAt") VALUES ($1, $2, $3, NOW()) RETURNING *', ['Id Test', 'Content content content', 'Author']);
       const post = res.rows[0];
 
       const response = await request(app).get(`/posts/${post.uuid}`);
@@ -46,7 +46,7 @@ describe('Posts API - Success Scenarios (Happy Path)', () => {
 
   describe('Search Functionality', () => {
     it('should find posts by keyword', async () => {
-      const res = await db.query('INSERT INTO "posts" (title, content, author) VALUES ($1, $2, $3) RETURNING *', ['Searchable success', 'UniqueContent', 'Author']);
+      const res = await db.query('INSERT INTO "posts" (title, content, author, "updatedAt") VALUES ($1, $2, $3, NOW()) RETURNING *', ['Searchable success', 'UniqueContent', 'Author']);
       const post = res.rows[0];
 
       const response = await request(app).get('/posts/search?q=UniqueContent');
