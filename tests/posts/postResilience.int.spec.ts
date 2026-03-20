@@ -4,15 +4,15 @@ import { db } from '@/lib/db';
 
 describe('Post API Resilience', () => {
   describe('Invalid UUIDs', () => {
-    it('should return 400 for malformed UUID in GET', async () => {
+    it('should return 500 for malformed UUID in GET', async () => {
       const response = await request(app).get('/posts/not-a-uuid-123');
-      // The application currently returns 400 for any error caught in controller
-      expect(response.status).toBe(400);
+      // The application currently returns 500 for unhandled DB errors from controller
+      expect(response.status).toBe(500);
     });
 
-    it('should return 400 for malformed UUID in DELETE', async () => {
+    it('should return 500 for malformed UUID in DELETE', async () => {
       const response = await request(app).delete('/posts/not-a-uuid-123');
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(500);
     });
   });
 
@@ -24,9 +24,8 @@ describe('Post API Resilience', () => {
 
       const response = await request(app).get('/posts');
       
-      // Since it's caught in the controller's try/catch which calls handleError, 
-      // and handleError returns 400 for generic Error.
-      expect(response.status).toBe(400);
+      // Erros de infraestrutura (banco indisponível) devem retornar 500
+      expect(response.status).toBe(500);
       expect(response.body).toHaveProperty('message', 'Connection refused');
 
       // Restore

@@ -21,8 +21,8 @@ export class PostController {
       return res.status(404).json({ message: error.message });
     }
 
-    const message = error instanceof Error ? error.message : 'Unknown error';
-    return res.status(400).json({ message });
+    const message = error instanceof Error ? error.message : 'Erro interno do servidor';
+    return res.status(500).json({ message });
   }
 
   async create(req: Request, res: Response): Promise<Response> {

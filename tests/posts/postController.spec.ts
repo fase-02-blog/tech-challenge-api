@@ -124,13 +124,13 @@ describe('PostController', () => {
       expect(mockResponse.status).toHaveBeenCalledWith(404);
     });
 
-    it('should return 400 for generic errors', async () => {
+    it('should return 500 for generic errors', async () => {
       mockRequest.params = { id: 'uuid-1' };
       mockPostService.delete.mockRejectedValue(new Error('Database connection failed'));
 
       await postController.delete(mockRequest as Request, mockResponse as Response);
 
-      expect(mockResponse.status).toHaveBeenCalledWith(400);
+      expect(mockResponse.status).toHaveBeenCalledWith(500);
       expect(mockResponse.json).toHaveBeenCalledWith({ message: 'Database connection failed' });
     });
   });
